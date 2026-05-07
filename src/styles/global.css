@@ -1,0 +1,108 @@
+:root {
+	--color-bg: #0f1419;
+	--color-surface: #1a2332;
+	--color-text: #e7ecf3;
+	--color-muted: #8b9cb3;
+	--color-accent: #6ee7b7;
+	--color-accent-dim: #34d399;
+	--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
+	--font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+	--space-xs: 0.35rem;
+	--space-sm: 0.75rem;
+	--space-md: 1.25rem;
+	--space-lg: 2rem;
+	--space-xl: 3.5rem;
+	--radius: 10px;
+	--max-width: 720px;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	font-family: var(--font-sans);
+	font-size: 1.05rem;
+	line-height: 1.6;
+	color: var(--color-text);
+	background: radial-gradient(1200px 600px at 10% -10%, #1e3a5f 0%, transparent 55%),
+		radial-gradient(900px 500px at 100% 0%, #134e4a 0%, transparent 50%), var(--color-bg);
+	background-attachment: fixed;
+}
+
+a {
+	color: var(--color-accent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+}
+
+a:hover {
+	color: var(--color-accent-dim);
+}
+
+main {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: var(--space-lg) var(--space-md) var(--space-xl);
+}
+
+h1,
+h2,
+h3 {
+	line-height: 1.25;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+}
+
+h2 {
+	font-size: 1.35rem;
+	margin: var(--space-xl) 0 var(--space-md);
+	color: var(--color-text);
+	border-bottom: 1px solid rgba(110, 231, 183, 0.25);
+	padding-bottom: var(--space-xs);
+}
+
+p {
+	margin: 0 0 var(--space-md);
+	color: var(--color-muted);
+}
+
+.muted {
+	color: var(--color-muted);
+	font-size: 0.95rem;
+}
+
+.surface {
+	background: rgba(26, 35, 50, 0.72);
+	border: 1px solid rgba(110, 231, 183, 0.12);
+	border-radius: var(--radius);
+	padding: var(--space-md);
+	backdrop-filter: blur(8px);
+}
+
+.project-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-md);
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.project-card h3 {
+	margin: 0 0 var(--space-xs);
+	font-size: 1.1rem;
+}
+
+.project-card p {
+	margin: 0;
+	font-size: 0.95rem;
+}

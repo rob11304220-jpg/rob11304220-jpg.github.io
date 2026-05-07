@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { profile } from "../data/profile";
+---
+
+<BaseLayout title={`${profile.name} — Home`} description={profile.bio}>
+	<SiteHeader />
+	<main>
+		<Hero />
+		<Section id="about" title="About">
+			<p>{profile.bio}</p>
+		</Section>
+		<Section id="projects" title="Projects">
+			<ul class="project-list">
+				{profile.projects.map((p) => (
+					<ProjectCard title={p.title} description={p.description} href={p.href} />
+				))}
+			</ul>
+		</Section>
+		<Section id="contact" title="Contact">
+			<p>
+				Reach me on
+				<a href={profile.links.github}>GitHub</a>
+				or via
+				<a href={profile.links.email}>email</a>.
+			</p>
+		</Section>
+	</main>
+	<SiteFooter />
+</BaseLayout>
