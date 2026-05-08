@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="个人主页 — 简介、项目与联系方式" />
+    <title>个人主页</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="logo" href="#">站点标题</a>
+        <button
+          type="button"
+          class="nav-toggle"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          id="nav-toggle"
+        >
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="visually-hidden">打开菜单</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="页面内导航">
+          <ul class="site-nav__list">
+            <li><a href="#about">关于</a></li>
+            <li><a href="#projects">项目</a></li>
+            <li><a href="#contact">联系</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero__content">
+          <p class="hero__eyebrow">你好，我是</p>
+          <h1 id="hero-title" class="hero__title">你的名字</h1>
+          <p class="hero__lead">
+            用一两句话介绍你的方向或兴趣。可直接编辑本页的 HTML 与 CSS 进行定制。
+          </p>
+          <p class="hero__actions">
+            <a class="button button--primary" href="#projects">查看项目</a>
+            <a class="button button--ghost" href="#contact">联系我</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="about" aria-labelledby="about-title">
+        <div class="section__inner">
+          <h2 id="about-title" class="section__title">关于</h2>
+          <p class="section__text">
+            在这里写你的背景、技能或当前专注的方向。保持简短，方便访客快速了解你。
+          </p>
+        </div>
+      </section>
+
+      <section class="section section--alt" id="projects" aria-labelledby="projects-title">
+        <div class="section__inner">
+          <h2 id="projects-title" class="section__title">项目</h2>
+          <ul class="project-list">
+            <li class="project-card">
+              <h3 class="project-card__title">示例项目 A</h3>
+              <p class="project-card__desc">一句话说明项目与所用技术。</p>
+              <a class="project-card__link" href="#">查看详情</a>
+            </li>
+            <li class="project-card">
+              <h3 class="project-card__title">示例项目 B</h3>
+              <p class="project-card__desc">可复制此卡片区块添加更多条目。</p>
+              <a class="project-card__link" href="#">查看详情</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <div class="section__inner section__inner--narrow">
+          <h2 id="contact-title" class="section__title">联系</h2>
+          <p class="section__text">
+            邮箱、GitHub 或其它链接可放在下方（将 <code>href</code> 改为你的真实地址）。
+          </p>
+          <ul class="contact-links">
+            <li>
+              <a href="mailto:hello@example.com">hello@example.com</a>
+            </li>
+            <li>
+              <a href="https://github.com/rob11304220-jpg" rel="noopener noreferrer"
+                >GitHub</a
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <p class="site-footer__copy">© <span id="year"></span> 你的名字。保留所有权利。</p>
+      </div>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
