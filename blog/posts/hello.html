@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="欢迎来到博客 — 示例文章" />
+    <title>欢迎来到博客 — 博客</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="../../css/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="logo" href="../../index.html">站点标题</a>
+        <button
+          type="button"
+          class="nav-toggle"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          id="nav-toggle"
+        >
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="visually-hidden">打开菜单</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="站点导航">
+          <ul class="site-nav__list">
+            <li><a href="../../index.html#about">关于</a></li>
+            <li><a href="../">博客</a></li>
+            <li><a href="../../index.html#projects">项目</a></li>
+            <li><a href="../../index.html#contact">联系</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <article class="article" aria-labelledby="post-title">
+        <header class="article__header">
+          <p class="article__back">
+            <a href="../">← 返回博客列表</a>
+          </p>
+          <time class="article__meta" datetime="2026-05-08">2026 年 5 月 8 日</time>
+          <h1 id="post-title" class="article__title">欢迎来到博客</h1>
+        </header>
+        <div class="article__body prose">
+          <p>
+            这是一篇占位示例，用于演示文章页排版。你可以删除本段，换成自己的正文；新增文章时复制本文件到同目录下即可。
+          </p>
+          <p>
+            正文支持普通段落、<code>行内代码</code>，以及列表：
+          </p>
+          <ul>
+            <li>保持与站点其它页面一致的页眉与页脚；</li>
+            <li>部署前确认 <code>.github/workflows/deploy.yml</code> 会复制 <code>blog/</code> 目录。</li>
+          </ul>
+          <p>
+            祝写作愉快。
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <p class="site-footer__copy">© <span id="year"></span> 你的名字。保留所有权利。</p>
+      </div>
+    </footer>
+
+    <script src="../../js/main.js" defer></script>
+  </body>
+</html>
