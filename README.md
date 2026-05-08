@@ -22,3 +22,43 @@ npx serve .
 - 样式：`css/styles.css`
 - 脚本：`js/main.js`
 - 图标：`assets/favicon.svg`
+
+## 页面页眉 / 页脚约定 (Page header / footer convention)
+
+**Source of truth:** [`index.html`](index.html) — the visible text inside `<header class="site-header">` and `<footer class="site-footer">` must match on every new page. Only **relative `href` values** and **`aria-current="page"`** on the active nav item change by depth.
+
+- **Skip link:** `Skip to main content` → `href="#main"`
+- **Logo:** text `Luobin Liao`; `href` to homepage: `index.html` (root), `../index.html` (under `blog/`), `../../index.html` (under `blog/posts/`)
+- **Nav:** `aria-label="In-page navigation"`; menu toggle SR text `Open menu`
+- **Nav links (order):** About → Blog → Projects → Contact  
+  - About / Projects / Contact: `<homepage>#about`, `#projects`, `#contact`  
+  - Blog: `blog/`, `./`, or `../` from post pages  
+  - Put `aria-current="page"` on the link for the current section (e.g. Blog on all `blog/` pages)
+- **Footer:** `© <span id="year"></span> Luobin Liao. All rights reserved.` — year is filled by `js/main.js` (`#year`)
+
+**Canonical blocks** (root paths; adjust `href` as above):
+
+```html
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="logo" href="index.html">Luobin Liao</a>
+    <!-- nav-toggle ... -->
+    <nav class="site-nav" id="site-nav" aria-label="In-page navigation">
+      <ul class="site-nav__list">
+        <li><a href="#about">About</a></li>
+        <li><a href="blog/">Blog</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p class="site-footer__copy">© <span id="year"></span> Luobin Liao. All rights reserved.</p>
+  </div>
+</footer>
+```
+
+When adding a page, copy these regions from `index.html` and update paths + active marker only.
