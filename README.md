@@ -12,7 +12,7 @@ npx serve .
 
 ## 部署
 
-推送至 `main` 后，GitHub Actions（`.github/workflows/deploy.yml`）会将仓库根目录发布到 GitHub Pages。仓库 **Settings → Pages** 中来源应为 **GitHub Actions**。
+推送至 `main` 后，GitHub Actions（`.github/workflows/deploy.yml`）会把 `index.html` 与 `css/`、`js/`、`assets/` 复制到临时目录并发布，避免将 `.git` 等开发文件打进站点产物。仓库 **Settings → Pages** 中来源应为 **GitHub Actions**。
 
 线上地址：<https://rob11304220-jpg.github.io>
 
