@@ -2,3 +2,6 @@
 .idea/
 .env
 .env.*
+
+# CI staging (GitHub Actions only)
+_publish/
