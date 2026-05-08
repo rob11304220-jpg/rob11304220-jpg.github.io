@@ -11,7 +11,8 @@
   --radius: 12px;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif;
-  --header-h: 4rem;
+  /* Sticky bar: vertical padding + inner bar (see .site-header / .header-card) */
+  --header-h: 5rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -105,20 +106,28 @@ code {
   position: sticky;
   top: 0;
   z-index: 50;
+  padding: 0.5rem 1.25rem;
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 45%, transparent);
 }
 
 .site-header__inner {
   max-width: 960px;
   margin: 0 auto;
   padding: 0 1.25rem;
-  height: var(--header-h);
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.site-header__inner.header-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
 }
 
 .logo {
@@ -201,6 +210,10 @@ code {
     flex-direction: column;
     gap: 1rem;
     font-size: 1.125rem;
+  }
+
+  .site-header__inner.header-card {
+    border-radius: var(--radius);
   }
 }
 
@@ -298,7 +311,7 @@ code {
 }
 
 .section__title {
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
   font-size: 1.5rem;
   letter-spacing: -0.02em;
 }
@@ -309,9 +322,21 @@ code {
   max-width: 42rem;
 }
 
+.content-card {
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.content-card--narrow {
+  max-width: 640px;
+}
+
 .project-list {
   list-style: none;
-  margin: 1.5rem 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
   gap: 1rem;
