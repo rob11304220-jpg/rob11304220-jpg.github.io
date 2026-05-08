@@ -24,6 +24,7 @@ jobs:
         run: |
           mkdir -p _publish
           cp index.html _publish/
+          cp -f favicon.ico _publish/
           cp -r css js assets _publish/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
