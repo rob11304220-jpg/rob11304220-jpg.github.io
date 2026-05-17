@@ -62,3 +62,42 @@ npx serve .
 ```
 
 When adding a page, copy these regions from `index.html` and update paths + active marker only.
+
+## 博客文章 (Blog posts)
+
+**Layout**
+
+| Role | Path |
+|------|------|
+| Listing | [`blog/index.html`](blog/index.html) |
+| Post | `blog/posts/<slug>.html` |
+| Scaffold | [`blog/posts/_template.html`](blog/posts/_template.html) (copy and rename; do not link from the listing) |
+
+**Per-post fields** (must match between listing card and post page):
+
+- `POST_TITLE` — article title (`<h1>`, `<title>`, list link text)
+- `POST_EXCERPT` — list excerpt and post `<meta name="description">`
+- `POST_DATE_ISO` — `datetime` on `<time>` (e.g. `2026-05-17`)
+- `POST_DATE_DISPLAY` — visible date (e.g. `2026 年 5 月 17 日`)
+
+**Listing order:** insert each new `<li class="post-card">` at the **top** of `<ul class="post-list">` (newest first).
+
+**Listing hero** on `blog/index.html` — fixed copy (do not paraphrase):
+
+- `写作与笔记` / `博客` / `学习记录与想法。`
+
+**Language split**
+
+- **English (fixed):** site header/footer and nav — same as homepage (*页面页眉 / 页脚约定* above).
+- **Chinese (editable):** blog hero, list cards, article body, back link `← 返回博客列表`.
+
+**Paths by depth**
+
+- `blog/index.html`: `../index.html`, `../css/`, `../js/`
+- `blog/posts/*.html`: `../../index.html`, `../../css/`, `../../js/`; Blog nav `href="../"` with `aria-current="page"`
+
+**Pre-publish checklist**
+
+- List `href` matches post filename
+- No broken links to removed posts
+- Open listing + post in a browser; test back link and mobile nav
