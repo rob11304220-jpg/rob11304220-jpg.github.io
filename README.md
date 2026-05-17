@@ -96,8 +96,21 @@ When adding a page, copy these regions from `index.html` and update paths + acti
 - `blog/index.html`: `../index.html`, `../css/`, `../js/`
 - `blog/posts/*.html`: `../../index.html`, `../../css/`, `../../js/`; Blog nav `href="../"` with `aria-current="page"`
 
+**Source & media (per post)**
+
+| Role | Path |
+|------|------|
+| Markdown 源稿 | `blog/source/<slug>/index.md` |
+| 源稿配图 | `blog/source/<slug>/figures/` |
+| 发布用图片 | `blog/media/<slug>/`（HTML 从 `blog/posts/` 引用：`../media/<slug>/…`） |
+
+- `slug` 与 `blog/posts/<slug>.html` 文件名一致（小写英文连字符）。
+- 编辑时维护 `source/`；同步正文到 `posts/<slug>.html`；将 `figures/` 复制到 `blog/media/<slug>/`。
+- 部署时 **不发布** `blog/source/`（见 `.github/workflows/deploy.yml` 中的 `rm -rf _publish/blog/source`）。
+
 **Pre-publish checklist**
 
 - List `href` matches post filename
 - No broken links to removed posts
 - Open listing + post in a browser; test back link and mobile nav
+- Images resolve under `/blog/media/<slug>/`
