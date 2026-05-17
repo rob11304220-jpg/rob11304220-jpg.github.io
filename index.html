@@ -53,8 +53,9 @@
         </p>
       </div>
     </section>
-    
-    <section class="section" id="about" aria-labelledby="about-title">
+
+    <main id="main">
+      <section class="section" id="about" aria-labelledby="about-title">
       <div class="section__inner">
         <h2 id="about-title" class="section__title">About</h2>
         <div class="content-card">
@@ -71,29 +72,42 @@
       <section class="section section--alt" id="projects" aria-labelledby="projects-title">
         <div class="section__inner">
           <h2 id="projects-title" class="section__title">Projects</h2>
-          <ul class="project-list">
-            <li class="project-card">
-              <h3 class="project-card__title">Sample project A</h3>
-              <p class="project-card__desc">Coming soon</p>
-              <a class="project-card__link" href="#">View details</a>
-            </li>
-            <li class="project-card">
-              <h3 class="project-card__title">Sample project B</h3>
-              <p class="project-card__desc">Coming soon</p>
-              <a class="project-card__link" href="#">View details</a>
-            </li>
-          </ul>
+          <div class="project-scroll" tabindex="0" aria-label="Project cards">
+            <ul class="project-list">
+              <li class="project-card">
+                <h3 class="project-card__title">Sample project A</h3>
+                <p class="project-card__desc">Coming soon</p>
+                <a class="project-card__link" href="#">View details</a>
+              </li>
+              <li class="project-card">
+                <h3 class="project-card__title">Sample project B</h3>
+                <p class="project-card__desc">Coming soon</p>
+                <a class="project-card__link" href="#">View details</a>
+              </li>
+              <li class="project-card">
+                <h3 class="project-card__title">Sample project C</h3>
+                <p class="project-card__desc">Coming soon</p>
+                <a class="project-card__link" href="#">View details</a>
+              </li>
+              <li class="project-card">
+                <h3 class="project-card__title">Sample project D</h3>
+                <p class="project-card__desc">Coming soon</p>
+                <a class="project-card__link" href="#">View details</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
 
-      <section class="section" id="contact" aria-labelledby="contact-title">
-        <div class="section__inner">
-          <h2 id="contact-title" class="section__title">Contact</h2>
-          <div class="content-card content-card--narrow">
-            <p class="section__text">
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="section__inner">
+        <h2 id="contact-title" class="section__title">Contact</h2>
+        <div class="content-card">
+          <div class="contact-card__row">
+            <p class="section__text contact-card__intro">
               Feel free to reach out!
             </p>
-            <ul class="contact-links">
+            <ul class="contact-links contact-card__links">
               <li>
                 <a href="mailto:llbxfy@mail.ustc.edu.cn">llbxfy@mail.ustc.edu.cn</a>
               </li>
@@ -105,7 +119,8 @@
             </ul>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
     </main>
 
     <footer class="site-footer">

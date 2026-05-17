@@ -202,6 +202,26 @@ code {
     gap: 1rem;
     font-size: 1.125rem;
   }
+
+  .site-nav__list a {
+    display: block;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .site-nav__list a:hover,
+  .site-nav__list a:focus-visible {
+    color: var(--accent);
+    background: var(--bg-alt);
+  }
+
+  .site-nav__list a[aria-current="page"] {
+    background: var(--bg-alt);
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  }
 }
 
 .hero {
@@ -321,16 +341,26 @@ code {
   max-width: 640px;
 }
 
+.project-scroll {
+  overflow-x: auto;
+  scrollbar-gutter: stable;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.25rem;
+}
+
 .project-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
+  display: flex;
+  flex-wrap: nowrap;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
 
 .project-card {
+  flex: 0 0 min(280px, 85vw);
+  scroll-snap-align: start;
   padding: 1.25rem 1.35rem;
   border-radius: var(--radius);
   background: var(--surface);
@@ -354,6 +384,25 @@ code {
   text-decoration: none;
 }
 
+.contact-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.contact-card__intro {
+  flex: 1 1 auto;
+  min-width: 12rem;
+}
+
+.contact-card__links {
+  margin: 0;
+  text-align: right;
+  flex-shrink: 0;
+}
+
 .contact-links {
   list-style: none;
   margin: 1.25rem 0 0;
@@ -362,6 +411,21 @@ code {
 
 .contact-links li + li {
   margin-top: 0.5rem;
+}
+
+.contact-links.contact-card__links {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .contact-card__row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contact-card__links {
+    text-align: left;
+  }
 }
 
 .site-footer {
