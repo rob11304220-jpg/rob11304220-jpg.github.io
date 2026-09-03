@@ -334,4 +334,3 @@ if __name__ == "__main__":
     <em>ACM Transactions on Graphics (TOG)</em>, 25(3), 533–540.
   </li>
 </ol>
-
