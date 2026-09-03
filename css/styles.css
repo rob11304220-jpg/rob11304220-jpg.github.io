@@ -66,6 +66,11 @@ a:hover {
   color: var(--accent-hover);
 }
 
+:where(a, button, [tabindex]):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 72%, white);
+  outline-offset: 3px;
+}
+
 code {
   font-size: 0.9em;
   padding: 0.12em 0.35em;
@@ -188,13 +193,18 @@ code {
     inset: var(--header-h) 0 0 0;
     background: var(--bg);
     padding: 1.5rem;
-    transform: translateX(100%);
-    transition: transform 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
     border-top: 1px solid var(--border);
   }
 
   body.nav-open .site-nav {
-    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
   }
 
   .site-nav__list {
@@ -382,6 +392,11 @@ code {
 .project-card__link {
   font-weight: 600;
   text-decoration: none;
+}
+
+.project-card__link[aria-disabled="true"] {
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .contact-card__row {
@@ -609,8 +624,10 @@ code {
 }
 
 .prose table {
+  display: block;
   width: 100%;
   margin: 0 0 1.25rem;
+  overflow-x: auto;
   border-collapse: collapse;
   font-size: 0.95rem;
 }
@@ -684,4 +701,15 @@ code {
 
 .prose .references li {
   margin-bottom: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .site-nav,
+  .button {
+    transition: none;
+  }
 }
