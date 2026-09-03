@@ -6,11 +6,14 @@ This repository is the source of truth for Luobin Liao's personal website and bl
 
 Production URL: https://rob11304220-jpg.github.io
 
+The maintained product scope is the current static personal homepage, its project presentation, and the blog.
+
 ## Read first
 
 - Read `README.md` before changing the site.
 - Read the relevant guide in `docs/` before changing architecture, content structure, or deployment.
 - The site is an Astro project with fully static output and minimal browser JavaScript.
+- Read `docs/roadmap.md` only when planning optional future capabilities.
 
 ## Source of truth
 
@@ -21,7 +24,7 @@ Production URL: https://rob11304220-jpg.github.io
 
 ## Working rules
 
-- Preserve existing URLs unless the user explicitly approves a URL migration.
+- Preserve existing URLs unless the user explicitly approves a compatibility plan.
 - Preserve the established UI unless the user explicitly requests a redesign.
 - Prefer small, reviewable changes and inspect `git diff` before completion.
 - Do not push, merge, rewrite Git history, or change live deployment settings without explicit user authorization.
@@ -35,6 +38,7 @@ Production URL: https://rob11304220-jpg.github.io
 - Give meaningful images descriptive filenames and useful alternative text.
 - Follow the blog workflow in `README.md`.
 - Markdown or MDX content collections are the canonical article source; never edit generated pages in `dist/`.
+- Keep deferred capabilities out of active implementation until the user requests the corresponding project or content work.
 
 ## Design and accessibility
 

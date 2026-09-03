@@ -16,11 +16,10 @@ npm run dev
 提交前运行：
 
 ```bash
-npm run check
-npm run build
+npm run verify
 ```
 
-`npm run build` 会生成被 Git 忽略的 `dist/`。可使用 `npm run preview` 检查生产构建。
+`npm run verify` 会检查 Astro 类型和内容、生成被 Git 忽略的 `dist/`，并验证所有生成页面中的本地链接和资源。可使用 `npm run preview` 检查生产构建。
 
 ## 项目结构
 
@@ -33,6 +32,7 @@ npm run build
 | `src/content.config.ts` | 博客 frontmatter 校验规则 |
 | `src/styles/styles.css` | 全站样式 |
 | `public/` | 图片、图标和原生浏览器脚本 |
+| `scripts/` | 构建后链接与资源检查 |
 | `dist/` | Astro 生成结果，不提交 |
 
 ## 新增博客文章
@@ -52,7 +52,7 @@ math: false
 ```
 
 3. 将发布图片放到 `public/blog/media/<slug>/`，并使用 `/blog/media/<slug>/...` 引用。
-4. 运行检查和构建。博客列表、文章页面、日期、摘要、元数据和 URL 都会自动生成。
+4. 运行 `npm run verify`。博客列表、文章页面、日期、摘要、元数据和 URL 都会自动生成。
 
 已发布 slug 是永久 URL。当前文章继续输出为：
 
@@ -68,6 +68,12 @@ math: false
 - 网站保持静态输出，不使用客户端框架 hydration。
 - 移动导航继续复用 `public/js/main.js` 中的少量原生 JavaScript。
 - `build.format: "preserve"` 同时保持目录型 `/blog/` 和已有 `.html` 文章 URL。
+- 构建自动生成 `404.html`、sitemap 和 `robots.txt`。
+- 共享布局统一生成 canonical、Open Graph、Twitter Card 和 JSON-LD 元数据。
+
+## 后续方向
+
+当前仓库只实现已需要的主页与博客能力。可选增强集中记录在 `docs/roadmap.md`，仅在后续个人项目或内容确有需求时实施。
 
 ## 部署边界
 
