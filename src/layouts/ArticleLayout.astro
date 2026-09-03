@@ -10,9 +10,34 @@ interface Props {
 }
 
 const { title, description, publishedAt, dateDisplay, math = false } = Astro.props;
+
+const articleURL = new URL(Astro.url.pathname, Astro.site).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description,
+  datePublished: publishedAt.toISOString(),
+  mainEntityOfPage: articleURL,
+  image: new URL("/assets/social-card.png", Astro.site).href,
+  author: {
+    "@type": "Person",
+    name: "Luobin Liao",
+    url: "https://rob11304220-jpg.github.io/",
+  },
+};
 ---
 
-<BaseLayout title={`${title} — 博客`} description={description} lang="zh-CN" blogActive math={math}>
+<BaseLayout
+  title={`${title} — 博客`}
+  description={description}
+  lang="zh-CN"
+  blogActive
+  math={math}
+  pageType="article"
+  publishedAt={publishedAt}
+  structuredData={structuredData}
+>
   <main id="main">
     <article class="article" aria-labelledby="post-title">
       <header class="article__header">

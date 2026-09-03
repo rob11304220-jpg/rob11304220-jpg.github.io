@@ -6,7 +6,7 @@
 2. Supply the required frontmatter validated by `src/content.config.ts`.
 3. Put published images under `public/blog/media/<slug>/`.
 4. Reference public images with root-relative `/blog/media/<slug>/...` URLs.
-5. Run `npm run check` and `npm run build`; never edit generated files under `dist/`.
+5. Run `npm run verify`; never edit generated files under `dist/`.
 
 The collection generates the blog listing, article page, date, description, title, canonical metadata, and permanent route.
 
@@ -27,3 +27,5 @@ The collection generates the blog listing, article page, date, description, titl
 - `dateDisplay`: visible localized date
 - `draft`: excludes an entry from public routes and listings when true
 - `math`: loads MathJax only for articles that need it
+
+Global social sharing uses `public/assets/social-card.png`; `public/assets/social-card.svg` is its editable source. Introduce a per-article social image field only when articles need distinct preview artwork; if added, validate it in the collection schema and keep the fallback.

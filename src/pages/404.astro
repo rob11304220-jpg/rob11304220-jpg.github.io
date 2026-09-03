@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found — Luobin Liao"
+  description="The requested page could not be found."
+  robots="noindex, nofollow"
+>
+  <main id="main">
+    <section class="hero blog-hero" aria-labelledby="not-found-title">
+      <div class="hero__content">
+        <p class="hero__eyebrow">404 · Page not found</p>
+        <h1 id="not-found-title" class="hero__title">This path ends here.</h1>
+        <p class="hero__lead">The page may have moved, or the address may be incomplete.</p>
+        <p class="hero__actions">
+          <a class="button button--primary" href="/">Return home</a>
+          <a class="button button--ghost" href="/blog/">Browse the blog</a>
+        </p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

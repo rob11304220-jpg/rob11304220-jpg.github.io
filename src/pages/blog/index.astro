@@ -5,9 +5,23 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Blog — Luobin Liao",
+  description: "学习记录与想法。",
+  url: "https://rob11304220-jpg.github.io/blog/",
+};
 ---
 
-<BaseLayout title="Blog — Luobin Liao" description="博客 — 文章列表" lang="zh-CN" blogActive>
+<BaseLayout
+  title="Blog — Luobin Liao"
+  description="博客 — 文章列表"
+  lang="zh-CN"
+  blogActive
+  structuredData={structuredData}
+>
   <main id="main">
     <section class="hero blog-hero" id="top" aria-labelledby="blog-title">
       <div class="hero__content">

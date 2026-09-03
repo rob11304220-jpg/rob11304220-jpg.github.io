@@ -19,10 +19,11 @@ Use the checks appropriate to the current architecture.
 ## Astro site
 
 - Install dependencies from the committed lockfile with `npm ci`.
-- Run `npm run check` and require zero errors or warnings.
-- Run `npm run build`.
+- Run `npm run verify` and require zero Astro errors or warnings and zero broken local references.
 - Inspect the generated static output under `dist/`.
 - Verify `/`, `/blog/`, and every published `.html` article route.
+- Verify `404.html`, `robots.txt`, `sitemap-index.xml`, and its referenced sitemap file.
+- Confirm canonical, social sharing, and JSON-LD metadata are present on representative pages.
 - Confirm drafts and source-only content are absent from `dist/`.
 - Confirm no client-side hydration directives were added without a documented requirement.
 

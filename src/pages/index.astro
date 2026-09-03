@@ -1,8 +1,25 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Luobin Liao",
+  url: "https://rob11304220-jpg.github.io/",
+  affiliation: {
+    "@type": "CollegeOrUniversity",
+    name: "University of Science and Technology of China",
+  },
+  knowsAbout: ["Computational geometry", "3D vision", "Surface reconstruction", "B-Rep geometry"],
+  sameAs: ["https://github.com/rob11304220-jpg"],
+};
 ---
 
-<BaseLayout title="Luobin Liao" description="Personal homepage — about, projects, and contact">
+<BaseLayout
+  title="Luobin Liao"
+  description="Personal homepage — about, projects, and contact"
+  structuredData={structuredData}
+>
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="hero__content">
       <div class="hero__intro">

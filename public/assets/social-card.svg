@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Luobin Liao</title>
+  <desc id="desc">Computational geometry and 3D vision</desc>
+  <defs>
+    <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M 56 0 L 0 0 0 56" fill="none" stroke="#dbe2df" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow" cx="82%" cy="18%" r="75%">
+      <stop offset="0" stop-color="#dce9e8"/>
+      <stop offset="1" stop-color="#f8f8f5" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#f8f8f5"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <circle cx="870" cy="166" r="7" fill="#c66f42"/>
+  <path d="M870 166H1080" stroke="#67716d" stroke-width="2"/>
+  <text x="96" y="112" fill="#32636d" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="4">COMPUTATIONAL GEOMETRY · 3D VISION</text>
+  <text x="96" y="300" fill="#15211f" font-family="Arial, sans-serif" font-size="82" font-weight="700">Geometry,</text>
+  <text x="96" y="390" fill="#15211f" font-family="Arial, sans-serif" font-size="82" font-weight="700">made precise.</text>
+  <text x="96" y="515" fill="#53605d" font-family="Arial, sans-serif" font-size="28">Luobin Liao · Research notes and selected work</text>
+</svg>
