@@ -10,7 +10,7 @@ Production URL: https://rob11304220-jpg.github.io
 
 - Read `README.md` before changing the site.
 - Read the relevant guide in `docs/` before changing architecture, content structure, or deployment.
-- The current production site is plain HTML, CSS, and JavaScript. Treat a future Astro conversion as a separate migration, not as an implicit prerequisite for ordinary edits.
+- The site is an Astro project with fully static output and minimal browser JavaScript.
 
 ## Source of truth
 
@@ -33,8 +33,8 @@ Production URL: https://rob11304220-jpg.github.io
 - Use lowercase, hyphen-separated permanent slugs for new blog posts.
 - Keep titles, descriptions, dates, links, and published assets consistent.
 - Give meaningful images descriptive filenames and useful alternative text.
-- During the current plain-HTML phase, follow the blog workflow in `README.md`.
-- After an approved Astro migration, Markdown or MDX content collections should become the canonical article source and generated pages should not be edited directly.
+- Follow the blog workflow in `README.md`.
+- Markdown or MDX content collections are the canonical article source; never edit generated pages in `dist/`.
 
 ## Design and accessibility
 

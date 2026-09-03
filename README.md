@@ -1,116 +1,74 @@
 # rob11304220-jpg.github.io
 
-纯 HTML / CSS / JS 单页个人站点，由默认分支根目录直接托管。
-
-## 本地预览
-
-用浏览器打开仓库根目录下的 `index.html`，或使用任意静态文件服务器，例如：
-
-```bash
-npx serve .
-```
-
-## 部署
-
-推送至 `main` 后，GitHub Actions（`.github/workflows/deploy.yml`）会把 `index.html` 与 `css/`、`js/`、`assets/` 复制到临时目录并发布，避免将 `.git` 等开发文件打进站点产物。仓库 **Settings → Pages** 中来源应为 **GitHub Actions**。
+Luobin Liao 的个人主页与博客。网站使用 Astro 生成纯静态文件，并通过 GitHub Actions 发布到 GitHub Pages。
 
 线上地址：<https://rob11304220-jpg.github.io>
 
-## 编辑说明
+## 本地开发
 
-- 页面结构：`index.html`
-- 样式：`css/styles.css`
-- 脚本：`js/main.js`
-- 图标：`assets/favicon.svg`
+需要 Node.js 24 和 npm。
 
-## 页面页眉 / 页脚约定 (Page header / footer convention)
-
-**Source of truth:** [`index.html`](index.html) — the visible text inside `<header class="site-header">` and `<footer class="site-footer">` must match on every new page. Only **relative `href` values** and **`aria-current="page"`** on the active nav item change by depth.
-
-- **Skip link:** `Skip to main content` → `href="#main"`
-- **Logo:** text `Luobin Liao`; `href` to homepage: `index.html` (root), `../index.html` (under `blog/`), `../../index.html` (under `blog/posts/`)
-- **Nav:** `aria-label="In-page navigation"`; menu toggle SR text `Open menu`
-- **Nav links (order):** About → Blog → Projects → Contact  
-  - About / Projects / Contact: `<homepage>#about`, `#projects`, `#contact`  
-  - Blog: `blog/`, `./`, or `../` from post pages  
-  - Put `aria-current="page"` on the link for the current section (e.g. Blog on all `blog/` pages)
-- **Footer:** `© <span id="year"></span> Luobin Liao. All rights reserved.` — year is filled by `js/main.js` (`#year`)
-
-**Canonical blocks** (root paths; adjust `href` as above):
-
-```html
-<header class="site-header">
-  <div class="site-header__inner">
-    <a class="logo" href="index.html">Luobin Liao</a>
-    <!-- nav-toggle ... -->
-    <nav class="site-nav" id="site-nav" aria-label="In-page navigation">
-      <ul class="site-nav__list">
-        <li><a href="#about">About</a></li>
-        <li><a href="blog/">Blog</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<footer class="site-footer">
-  <div class="site-footer__inner">
-    <p class="site-footer__copy">© <span id="year"></span> Luobin Liao. All rights reserved.</p>
-  </div>
-</footer>
+```bash
+npm ci
+npm run dev
 ```
 
-When adding a page, copy these regions from `index.html` and update paths + active marker only.
+提交前运行：
 
-## 博客文章 (Blog posts)
+```bash
+npm run check
+npm run build
+```
 
-**Layout**
+`npm run build` 会生成被 Git 忽略的 `dist/`。可使用 `npm run preview` 检查生产构建。
 
-| Role | Path |
-|------|------|
-| Listing | [`blog/index.html`](blog/index.html) |
-| Post | `blog/posts/<slug>.html` |
-| Scaffold | [`blog/posts/_template.html`](blog/posts/_template.html) (copy and rename; do not link from the listing) |
+## 项目结构
 
-**Per-post fields** (must match between listing card and post page):
+| 位置 | 用途 |
+|---|---|
+| `src/pages/` | 首页、博客列表和文章路由 |
+| `src/components/` | 共享页眉、导航和页脚 |
+| `src/layouts/` | 页面及文章布局 |
+| `src/content/blog/` | 博客正文唯一来源 |
+| `src/content.config.ts` | 博客 frontmatter 校验规则 |
+| `src/styles/styles.css` | 全站样式 |
+| `public/` | 图片、图标和原生浏览器脚本 |
+| `dist/` | Astro 生成结果，不提交 |
 
-- `POST_TITLE` — article title (`<h1>`, `<title>`, list link text)
-- `POST_EXCERPT` — list excerpt and post `<meta name="description">`
-- `POST_DATE_ISO` — `datetime` on `<time>` (e.g. `2026-05-17`)
-- `POST_DATE_DISPLAY` — visible date (e.g. `2026 年 5 月 17 日`)
+## 新增博客文章
 
-**Listing order:** insert each new `<li class="post-card">` at the **top** of `<ul class="post-list">` (newest first).
+1. 创建 `src/content/blog/<slug>.md` 或 `.mdx`，slug 使用小写英文和连字符。
+2. 添加经过 schema 校验的 frontmatter：
 
-**Listing hero** on `blog/index.html` — fixed copy (do not paraphrase):
+```yaml
+---
+title: 文章标题
+description: 列表摘要和页面描述
+publishedAt: 2026-05-17
+dateDisplay: 2026 年 5 月 17 日
+draft: false
+math: false
+---
+```
 
-- `写作与笔记` / `博客` / `学习记录与想法。`
+3. 将发布图片放到 `public/blog/media/<slug>/`，并使用 `/blog/media/<slug>/...` 引用。
+4. 运行检查和构建。博客列表、文章页面、日期、摘要、元数据和 URL 都会自动生成。
 
-**Language split**
+已发布 slug 是永久 URL。当前文章继续输出为：
 
-- **English (fixed):** site header/footer and nav — same as homepage (*页面页眉 / 页脚约定* above).
-- **Chinese (editable):** blog hero, list cards, article body, back link `← 返回博客列表`.
+```text
+/blog/posts/mls-local-curve-editing.html
+```
 
-**Paths by depth**
+需要公式时设置 `math: true`。MathJax 分隔符及复杂语义内容可以保留为 Markdown 条目中的 HTML；该条目仍是唯一正文来源。
 
-- `blog/index.html`: `../index.html`, `../css/`, `../js/`
-- `blog/posts/*.html`: `../../index.html`, `../../css/`, `../../js/`; Blog nav `href="../"` with `aria-current="page"`
+## 页面结构
 
-**Source & media (per post)**
+- 页眉、导航和页脚由共享 Astro 组件生成。
+- 网站保持静态输出，不使用客户端框架 hydration。
+- 移动导航继续复用 `public/js/main.js` 中的少量原生 JavaScript。
+- `build.format: "preserve"` 同时保持目录型 `/blog/` 和已有 `.html` 文章 URL。
 
-| Role | Path |
-|------|------|
-| Markdown 源稿 | `blog/source/<slug>/index.md` |
-| 源稿配图 | `blog/source/<slug>/figures/` |
-| 发布用图片 | `blog/media/<slug>/`（HTML 从 `blog/posts/` 引用：`../media/<slug>/…`） |
+## 部署边界
 
-- `slug` 与 `blog/posts/<slug>.html` 文件名一致（小写英文连字符）。
-- 编辑时维护 `source/`；同步正文到 `posts/<slug>.html`；将 `figures/` 复制到 `blog/media/<slug>/`。
-- 部署时 **不发布** `blog/source/`（见 `.github/workflows/deploy.yml` 中的 `rm -rf _publish/blog/source`）。
-
-**Pre-publish checklist**
-
-- List `href` matches post filename
-- No broken links to removed posts
-- Open listing + post in a browser; test back link and mobile nav
-- Images resolve under `/blog/media/<slug>/`
+`.github/workflows/deploy.yml` 仅在推送到 `main` 或手动触发时构建并发布 `dist/`。未经明确授权，不得推送、合并、部署或修改 GitHub Pages 设置。

@@ -5,3 +5,9 @@
 
 # CI staging (GitHub Actions only)
 _publish/
+
+# Astro / Node
+node_modules/
+dist/
+.astro/
+.npm-cache/

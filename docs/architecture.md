@@ -2,19 +2,19 @@
 
 ## Current system
 
-The production site is a static GitHub Pages site implemented with HTML, CSS, and JavaScript.
+The site is an Astro project that produces fully static files for GitHub Pages.
 
-- `index.html`: homepage and canonical site chrome
-- `css/styles.css`: shared styling
-- `js/main.js`: lightweight browser behavior
-- `assets/`: public site assets
-- `blog/index.html`: blog listing
-- `blog/posts/`: published article pages
-- `blog/source/`: Markdown source and source figures; excluded from deployment
-- `blog/media/`: published article media
-- `.github/workflows/deploy.yml`: production deployment
+- `src/pages/`: file-based public routes
+- `src/components/`: shared header, navigation, and footer
+- `src/layouts/`: shared base and article layouts
+- `src/content/blog/`: canonical Markdown or MDX article entries
+- `src/content.config.ts`: validated blog metadata schema
+- `src/styles/styles.css`: shared styling
+- `public/`: browser JavaScript, media, icons, and other copied assets
+- `dist/`: generated static output; ignored by Git
+- `.github/workflows/deploy.yml`: production build and Pages deployment
 
-Pushing an approved commit to `main` triggers GitHub Actions. The workflow stages public static files, removes unpublished blog source, and deploys the artifact to GitHub Pages.
+Pushing an approved commit to `main` triggers GitHub Actions. The official Astro action installs from the committed lockfile, builds the static site, and uploads `dist/` for GitHub Pages.
 
 ## Invariants
 
@@ -23,17 +23,9 @@ Pushing an approved commit to `main` triggers GitHub Actions. The workflow stage
 - Header, navigation, and footer remain visually and semantically consistent across pages.
 - Secrets and private working notes never enter the public repository.
 
-## Planned Astro migration
+## Rendering and routes
 
-Astro is a proposed maintenance upgrade, not yet the current architecture. Perform it in a dedicated branch after recording desktop and mobile visual baselines.
-
-The migration should:
-
-- preserve the accepted HTML structure, CSS behavior, UI, and public URLs;
-- convert repeated site chrome into shared components;
-- make Markdown or MDX the single source for each article;
-- generate listings, article pages, metadata, and feeds from structured content;
-- keep the result fully static for GitHub Pages;
-- avoid adding client-side hydration unless a feature requires it.
-
-Do not combine the initial path migration, an Astro conversion, and a visual redesign in one change.
+- `output: "static"` keeps the site server-free.
+- `build.format: "preserve"` keeps `/blog/` and legacy `.html` article URLs simultaneously.
+- Blog listing cards, article routes, titles, descriptions, dates, and canonical metadata are generated from the content collection.
+- No framework component is hydrated on the client. The existing navigation script remains a plain static asset.

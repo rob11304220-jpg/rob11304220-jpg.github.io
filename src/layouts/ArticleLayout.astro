@@ -1,0 +1,28 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  publishedAt: Date;
+  dateDisplay: string;
+  math?: boolean;
+}
+
+const { title, description, publishedAt, dateDisplay, math = false } = Astro.props;
+---
+
+<BaseLayout title={`${title} — 博客`} description={description} lang="zh-CN" blogActive math={math}>
+  <main id="main">
+    <article class="article" aria-labelledby="post-title">
+      <header class="article__header">
+        <p class="article__back"><a href="/blog/">← 返回博客列表</a></p>
+        <time class="article__meta" datetime={publishedAt.toISOString().slice(0, 10)}>{dateDisplay}</time>
+        <h1 id="post-title" class="article__title">{title}</h1>
+      </header>
+      <div class="article__body prose">
+        <slot />
+      </div>
+    </article>
+  </main>
+</BaseLayout>

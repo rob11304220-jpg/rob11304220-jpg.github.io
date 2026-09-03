@@ -1,0 +1,99 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Luobin Liao" description="Personal homepage — about, projects, and contact">
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero__content">
+      <div class="hero__intro">
+        <p class="hero__eyebrow">Computational geometry · 3D vision</p>
+        <h1 id="hero-title" class="hero__title">Geometry, made precise.</h1>
+        <p class="hero__lead">
+          I explore mathematical methods that translate between parametric 3D models and the physical world.
+        </p>
+        <p class="hero__actions">
+          <a class="button button--primary" href="#projects">Explore current work</a>
+          <a class="button button--ghost" href="/blog/">Read research notes</a>
+        </p>
+      </div>
+      <aside class="focus-note" aria-label="Current research focus">
+        <p class="focus-note__label">Current focus</p>
+        <p class="focus-note__title">Surface reconstruction from B-Rep data</p>
+        <p class="focus-note__meta">Undergraduate research · USTC</p>
+      </aside>
+    </div>
+  </section>
+
+  <main id="main">
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="section__inner">
+        <div class="section__heading">
+          <p class="section__eyebrow">01 · About</p>
+          <h2 id="about-title" class="section__title">Research through geometry</h2>
+        </div>
+        <div class="about-grid">
+          <p class="about-grid__intro">
+            I am an undergraduate student at the University of Science and Technology of China. I study how mathematical structure can make the translation between 3D models and the physical world more precise and efficient.
+          </p>
+          <dl class="research-facts">
+            <div><dt>Research direction</dt><dd>Surface reconstruction</dd></div>
+            <div><dt>Working material</dt><dd>B-Rep geometry</dd></div>
+            <div><dt>Goal</dt><dd>High-quality, watertight surfaces</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="projects" aria-labelledby="projects-title">
+      <div class="section__inner">
+        <div class="section__heading section__heading--split">
+          <div>
+            <p class="section__eyebrow">02 · Selected work</p>
+            <h2 id="projects-title" class="section__title">Current explorations</h2>
+          </div>
+          <p class="section__summary">Problems I am studying and notes developed along the way.</p>
+        </div>
+        <div class="project-scroll">
+          <ul class="project-list">
+            <li class="project-card project-card--featured">
+              <p class="project-card__meta">Current research</p>
+              <h3 class="project-card__title">B-Rep Surface Reconstruction</h3>
+              <p class="project-card__desc">
+                Inferring design intent from existing parametric models to construct precise, watertight surfaces.
+              </p>
+              <span class="project-card__status">Research in progress</span>
+            </li>
+            <li class="project-card">
+              <p class="project-card__meta">Technical note</p>
+              <h3 class="project-card__title">Local Curve Editing with MLS</h3>
+              <p class="project-card__desc">
+                A geometric explanation of using moving least squares to produce smooth, local curve deformations.
+              </p>
+              <a class="project-card__link" href="/blog/posts/mls-local-curve-editing.html">Read the note <span aria-hidden="true">→</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="section__inner">
+        <div class="section__heading">
+          <p class="section__eyebrow">03 · Contact</p>
+          <h2 id="contact-title" class="section__title">Let’s exchange ideas</h2>
+        </div>
+        <div class="content-card contact-card">
+          <div class="contact-card__row">
+            <p class="section__text contact-card__intro">
+              I’m always glad to discuss geometry, reconstruction, and related research.
+            </p>
+            <ul class="contact-links contact-card__links">
+              <li><a href="mailto:llbxfy@mail.ustc.edu.cn">llbxfy@mail.ustc.edu.cn</a></li>
+              <li><a href="https://github.com/rob11304220-jpg" rel="noopener noreferrer">GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

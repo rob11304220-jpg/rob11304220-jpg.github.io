@@ -1,0 +1,53 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import "../styles/styles.css";
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+  blogActive?: boolean;
+  math?: boolean;
+}
+
+const {
+  title,
+  description,
+  lang = "en",
+  blogActive = false,
+  math = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <title>{title}</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    {math && (
+      <script is:inline>
+        window.MathJax = {
+          tex: {
+            inlineMath: [["\\(", "\\)"]],
+            displayMath: [["\\[", "\\]"]],
+          },
+        };
+      </script>
+    )}
+    {math && <script is:inline src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <SiteHeader blogActive={blogActive} />
+    <slot />
+    <SiteFooter />
+    <script is:inline src="/js/main.js" defer></script>
+  </body>
+</html>

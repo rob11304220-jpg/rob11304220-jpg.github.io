@@ -1,0 +1,33 @@
+---
+interface Props {
+  blogActive?: boolean;
+}
+
+const { blogActive = false } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="logo" href="/index.html">Luobin Liao</a>
+    <button
+      type="button"
+      class="nav-toggle"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      id="nav-toggle"
+    >
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="visually-hidden">Open menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="In-page navigation">
+      <ul class="site-nav__list">
+        <li><a href="/index.html#about">About</a></li>
+        <li><a href="/blog/" aria-current={blogActive ? "page" : undefined}>Blog</a></li>
+        <li><a href="/index.html#projects">Projects</a></li>
+        <li><a href="/index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

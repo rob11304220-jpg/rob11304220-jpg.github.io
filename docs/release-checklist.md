@@ -16,20 +16,15 @@ Use the checks appropriate to the current architecture.
 - Test navigation, mobile menu behavior, keyboard focus, headings, and image alternative text.
 - Check the browser console for new errors.
 
-## Current plain-static site
+## Astro site
 
-- Confirm `index.html`, the blog listing, and affected article pages load without a build step.
-- Confirm `.github/workflows/deploy.yml` includes every required public directory and excludes `blog/source/`.
-
-## Future Astro site
-
-These checks apply only after Astro becomes the documented current architecture:
-
-- install dependencies from the committed lockfile;
-- run the documented type/content checks;
-- run the production build;
-- inspect the generated static output;
-- verify that legacy public URLs still resolve.
+- Install dependencies from the committed lockfile with `npm ci`.
+- Run `npm run check` and require zero errors or warnings.
+- Run `npm run build`.
+- Inspect the generated static output under `dist/`.
+- Verify `/`, `/blog/`, and every published `.html` article route.
+- Confirm drafts and source-only content are absent from `dist/`.
+- Confirm no client-side hydration directives were added without a documented requirement.
 
 ## Publishing boundary
 

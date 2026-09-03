@@ -19,18 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: Stage static files
-        run: |
-          mkdir -p _publish
-          cp index.html _publish/
-          cp -f favicon.ico _publish/
-          cp -r css js assets blog _publish/
-          rm -rf _publish/blog/source
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _publish
+        uses: actions/checkout@v7
+      - name: Install, build, and upload Astro site
+        uses: withastro/action@v6
 
   deploy:
     needs: build
@@ -41,4 +32,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

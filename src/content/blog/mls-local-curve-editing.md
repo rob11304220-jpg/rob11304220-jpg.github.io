@@ -1,0 +1,337 @@
+---
+title: MLS 在局部曲线编辑中的应用
+description: 为曲线的每个点找一个合适的局部变换
+publishedAt: 2026-05-17
+dateDisplay: 2026 年 5 月 17 日
+draft: false
+math: true
+---
+
+<h2 id="sec-1">1. 开篇</h2>
+<h3>1.1 一个直观的场景</h3>
+<p>
+  想象你在用矢量绘图软件（如 Illustrator、Inkscape）编辑一条曲线。你希望让曲线在一个点附近自然隆起，而远处的部分纹丝不动。
+</p>
+<p>
+  <strong>Moving Least Squares (MLS)</strong> 是一个合适的曲线编辑方法。那么，这种方法如何实现「局部性」？
+</p>
+
+<h2 id="sec-2">2. 问题定义：我们想要什么样的曲线编辑？</h2>
+<h3>2.1 输入与输出</h3>
+<table>
+  <thead>
+    <tr>
+      <th scope="col">输入</th>
+      <th scope="col">符号</th>
+      <th scope="col">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>原始曲线上的离散点集</td>
+      <td>\( \mathbf{v} \)</td>
+      <td>由折线近似表示的曲线采样点</td>
+    </tr>
+    <tr>
+      <td>用户拖拽的源控制点</td>
+      <td>\( \mathbf{p}_i \)</td>
+      <td>用户拾取的曲线上一点（原始位置）</td>
+    </tr>
+    <tr>
+      <td>拖拽目标位置</td>
+      <td>\( \mathbf{q}_i \)</td>
+      <td>用户将 \( \mathbf{p}_i \) 拖拽到的新位置</td>
+    </tr>
+    <tr>
+      <td>位移向量</td>
+      <td>\( \Delta = \mathbf{q}_i - \mathbf{p}_i \)</td>
+      <td>用户的编辑输入</td>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr>
+      <th scope="col">输出</th>
+      <th scope="col">符号</th>
+      <th scope="col">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>变形后的曲线点集</td>
+      <td>\( f(\mathbf{v}) \)</td>
+      <td>每个原始点 \( \mathbf{v} \) 的新位置</td>
+    </tr>
+  </tbody>
+</table>
+<blockquote>
+  <p>一般情形：用户可给出多个控制点对 \( \{(\mathbf{p}_i, \mathbf{q}_i)\}_{i=1}^n \)，MLS 统一处理。</p>
+</blockquote>
+
+<h3>2.2 核心约束</h3>
+<table>
+  <thead>
+    <tr>
+      <th scope="col">约束</th>
+      <th scope="col">数学表达</th>
+      <th scope="col">含义</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>插值约束</strong></td>
+      <td>\( f(\mathbf{p}_q) = \mathbf{q} \)</td>
+      <td>被拖拽的点精确到达目标位置</td>
+    </tr>
+    <tr>
+      <td><strong>局部性</strong></td>
+      <td>\( \|f(\mathbf{v}) - \mathbf{v}\| \to 0 \) 当 \( \|\mathbf{v} - \mathbf{p}_q\| \to \infty \)</td>
+      <td>距离拖拽点越远，位移越小</td>
+    </tr>
+    <tr>
+      <td><strong>平滑性</strong></td>
+      <td>尽可能光滑</td>
+      <td>相邻点位移过渡自然，不出现折痕</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>2.3 为什么不用其他方法？</h3>
+<table>
+  <thead>
+    <tr>
+      <th scope="col">方法</th>
+      <th scope="col">问题</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>径向基函数 (RBF)</td>
+      <td>全局支撑，远处也会被拖歪</td>
+    </tr>
+    <tr>
+      <td><strong>MLS</strong></td>
+      <td>封闭解、单点计算独立、局部可控、支持多约束</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="sec-3">3. 核心直觉：把局部编辑当成「加权变换」</h2>
+<h3>3.1 一句话核心</h3>
+<blockquote>
+  <p>
+    对于曲线上的每个点 \( \mathbf{v} \)，MLS 会问：<em>「如果控制点从 \( \mathbf{p}_i \) 移动到 \( \mathbf{q}_i \)，我应该跟着动多少？」</em>
+    答案取决于 <strong>我到每个控制点的距离</strong>。
+  </p>
+</blockquote>
+
+<h3>3.2 加权思想</h3>
+<p>MLS 的核心洞察是：<strong>距离越近的控制点，对当前点的「影响力」越大</strong>。</p>
+<ul>
+  <li>离 \( \mathbf{v} \) 很近的控制点：它的位移会强烈影响 \( \mathbf{v} \)</li>
+  <li>离 \( \mathbf{v} \) 很远的控制点：几乎不影响 \( \mathbf{v} \)</li>
+</ul>
+<p>这种「影响力」通过 <strong>权重函数</strong> \( w_i(\mathbf{v}) \) 量化。</p>
+
+<h3>3.3 直观类比</h3>
+<p><strong>捏橡皮泥</strong>：捏住一个点往外拉——</p>
+<ul>
+  <li>最近的点跟着走得很彻底</li>
+  <li>稍远的点被轻微扯动</li>
+  <li>远处的点完全不受影响</li>
+</ul>
+<p>MLS 就是把这个直觉公式化了。</p>
+
+<h2 id="sec-4">4. 数学骨架：精简化公式</h2>
+<h3>4.1 权重函数</h3>
+<p>衡量点 \( \mathbf{v} \) 受控制点 \( \mathbf{p}_i \) 的影响程度：</p>
+\[
+w_i(\mathbf{v}) = \frac{1}{\|\mathbf{p}_i - \mathbf{v}\|^{2\alpha}}, \quad \alpha > 0
+\]
+<ul>
+  <li>\( \alpha \) 控制衰减速度（通常 \( \alpha = 1 \) 或 \( 2 \)）</li>
+</ul>
+
+<h3>4.2 加权中心</h3>
+<p>为使变换与绝对位置解耦，先计算加权质心：</p>
+\[
+\mathbf{p}_* = \frac{\sum_i w_i \mathbf{p}_i}{\sum_i w_i}, \quad
+\mathbf{q}_* = \frac{\sum_i w_i \mathbf{q}_i}{\sum_i w_i}
+\]
+<p>相对偏移量：</p>
+\[
+\hat{\mathbf{p}}_i = \mathbf{p}_i - \mathbf{p}_*, \quad
+\hat{\mathbf{q}}_i = \mathbf{q}_i - \mathbf{q}_*
+\]
+
+<h3>4.3 变形函数基本形式</h3>
+<p>MLS 假设变形是<strong>平移 + 线性变换</strong>：</p>
+\[
+f(\mathbf{v}) = (\mathbf{v} - \mathbf{p}_*) \mathbf{M} + \mathbf{q}_*
+\]
+<p>其中 \( \mathbf{M} \) 是一个 \( 2\times 2 \) 矩阵，通过加权最小二乘确定：</p>
+\[
+\min_{\mathbf{M}} \sum_i w_i \|\hat{\mathbf{p}}_i \mathbf{M} - \hat{\mathbf{q}}_i\|^2
+\]
+
+<h3>4.4 仿射变换 (Affine) — 最灵活</h3>
+<p>不对 \( \mathbf{M} \) 加额外约束，允许缩放、旋转、剪切。</p>
+<p>定义加权协方差矩阵：</p>
+\[
+\mathbf{S}_{pp} = \sum_i w_i \hat{\mathbf{p}}_i^\top \hat{\mathbf{p}}_i, \quad
+\mathbf{S}_{pq} = \sum_i w_i \hat{\mathbf{p}}_i^\top \hat{\mathbf{q}}_i
+\]
+<p>最优解满足正规方程：</p>
+\[
+\mathbf{S}_{pp} \mathbf{M}_{\text{affine}}^\top = \mathbf{S}_{pq}
+\]
+<p>即：</p>
+\[
+\mathbf{M}_{\text{affine}}^\top = \mathbf{S}_{pp}^{-1} \mathbf{S}_{pq}
+\]
+
+<h3>4.5 相似变换 (Similarity) — 保形状</h3>
+<p>限制 \( \mathbf{M} \) 为旋转 + 均匀缩放形式（二维）：</p>
+\[
+\mathbf{M}_{\text{sim}} = \begin{bmatrix}
+a & -b \\
+b & a
+\end{bmatrix}
+\]
+<p>定义：</p>
+\[
+\mu_s = \sum_i w_i \|\hat{\mathbf{p}}_i\|^2
+\]
+\[
+a = \sum_i w_i \left(\hat{p}_{i,x}\hat{q}_{i,x} + \hat{p}_{i,y}\hat{q}_{i,y}\right)
+\]
+\[
+b = \sum_i w_i \left(\hat{p}_{i,x}\hat{q}_{i,y} - \hat{p}_{i,y}\hat{q}_{i,x}\right)
+\]
+<p>则：</p>
+\[
+\mathbf{M}_{\text{sim}} = \frac{1}{\mu_s} \begin{bmatrix}
+a & -b \\
+b & a
+\end{bmatrix}
+\]
+<p>当 \( \mu_s = 0 \) 时退化为纯平移。</p>
+
+<h3>4.6 最终变形</h3>
+\[
+f_{\text{affine}}(\mathbf{v}) = (\mathbf{v} - \mathbf{p}_*) \mathbf{M}_{\text{affine}} + \mathbf{q}_*
+\]
+\[
+f_{\text{similarity}}(\mathbf{v}) = (\mathbf{v} - \mathbf{p}_*) \mathbf{M}_{\text{sim}} + \mathbf{q}_*
+\]
+
+<h2 id="sec-5">5. 代码实战：计算局部变换矩阵</h2>
+<p>
+  对曲线上的查询点 \(\mathbf{v}\)，先由控制点对 \(\{(\mathbf{p}_i,\mathbf{q}_i)\}\) 算权重与加权中心，再按 §4.4 / §4.5 求 \(2\times2\) 矩阵 \(\mathbf{M}\)。
+</p>
+<pre><code class="language-python">import numpy as np
+
+def mls_local_matrix(v, p, q, *, alpha=1.0, mode="affine", eps=1e-8):
+    """给定查询点 v 与控制点数组 p, q，返回局部矩阵 M 与加权中心 p_star, q_star。"""
+    p = np.asarray(p, dtype=float)
+    q = np.asarray(q, dtype=float)
+    v = np.asarray(v, dtype=float)
+
+    # §4.1 权重
+    d2 = np.sum((p - v) ** 2, axis=1)
+    w = 1.0 / np.maximum(d2, eps) ** alpha
+    w_sum = w.sum()
+
+    # §4.2 加权中心与相对偏移
+    p_star = (p * w[:, None]).sum(axis=0) / w_sum
+    q_star = (q * w[:, None]).sum(axis=0) / w_sum
+    p_hat = p - p_star
+    q_hat = q - q_star
+
+    if mode == "affine":
+        # §4.4  S_pp M^T = S_pq  =&gt;  M = pinv(S_pp) @ S_pq
+        spp = np.einsum("i,ij,ik-&gt;jk", w, p_hat, p_hat)
+        spq = np.einsum("i,ij,ik-&gt;jk", w, p_hat, q_hat)
+        M = np.linalg.pinv(spp + eps * np.eye(2)) @ spq
+    else:
+        # §4.5  similarity
+        mu = np.sum(w * np.sum(p_hat * p_hat, axis=1))
+        a = np.sum(w * np.sum(p_hat * q_hat, axis=1))
+        b = np.sum(w * (p_hat[:, 0] * q_hat[:, 1] - p_hat[:, 1] * q_hat[:, 0]))
+        if mu &lt;= eps:
+  M = np.eye(2)
+        else:
+  M = (1.0 / mu) * np.array([[a, -b], [b, a]], dtype=float)
+
+    return M, p_star, q_star
+
+
+if __name__ == "__main__":
+    v = np.array([1.0, 0.5])
+    p = np.array([[0.0, 0.0], [2.0, 0.0]])
+    q = np.array([[0.2, 0.1], [2.5, 0.3]])
+
+    M, p_star, q_star = mls_local_matrix(v, p, q, alpha=1.0, mode="similarity")
+    f_v = (v - p_star) @ M + q_star  # §4.6
+    print("M =\n", M)
+    print("p_star =", p_star, "q_star =", q_star)
+    print("f(v) =", f_v)</code></pre>
+
+<h2 id="sec-6">6. 效果展示</h2>
+<p>在同一组控制点对下，对比原始曲线、MLS（similarity）与 RBF 的变形效果。</p>
+
+<h3>6.1 原始控制点对</h3>
+<figure>
+  <img
+    src="../media/mls-local-curve-editing/origin.png"
+    alt="原始曲线与一系列控制点对"
+    width="800"
+    height="600"
+    loading="lazy"
+  />
+  <figcaption>原始曲线与一系列控制点对</figcaption>
+</figure>
+
+<h3>6.2 MLS（similarity）</h3>
+<figure>
+  <img
+    src="../media/mls-local-curve-editing/mls.png"
+    alt="MLS 相似变换变形结果"
+    width="800"
+    height="600"
+    loading="lazy"
+  />
+  <figcaption>MLS 相似变换变形结果</figcaption>
+</figure>
+
+<h3>6.3 RBF（薄板样条）</h3>
+<p>RBF 方法中仿射部分为单位阵，径向部分选取薄板样条核函数：</p>
+\[
+\phi(r) = r^2 \log r
+\]
+<figure>
+  <img
+    src="../media/mls-local-curve-editing/rbf.png"
+    alt="RBF 变形结果"
+    width="800"
+    height="600"
+    loading="lazy"
+  />
+  <figcaption>RBF 变形结果（薄板样条核）</figcaption>
+</figure>
+
+<h2 id="sec-7">7. 总结</h2>
+<p>
+  MLS 通过距离加权，为曲线上每个点独立求解局部变换矩阵，从而在满足插值约束的同时实现局部、平滑的曲线编辑。仿射模式最灵活，相似变换模式则更好地保持局部形状。与全局 RBF 相比，MLS 的局部支撑更适合交互式矢量编辑场景。
+</p>
+
+<h2 id="references">参考文献</h2>
+<ol class="references">
+  <li>
+    Schaefer, S., McPhail, T., &amp; Warren, J. (2006).
+    <a href="https://doi.org/10.1145/1141911.1141920">Image deformation using moving least squares</a>.
+    <em>ACM Transactions on Graphics (TOG)</em>, 25(3), 533–540.
+  </li>
+</ol>
+

@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+---
+
+<BaseLayout title="Blog — Luobin Liao" description="博客 — 文章列表" lang="zh-CN" blogActive>
+  <main id="main">
+    <section class="hero blog-hero" id="top" aria-labelledby="blog-title">
+      <div class="hero__content">
+        <p class="hero__eyebrow">写作与笔记</p>
+        <h1 id="blog-title" class="hero__title">博客</h1>
+        <p class="hero__lead">学习记录与想法。</p>
+      </div>
+    </section>
+
+    <section class="section section--alt" aria-labelledby="posts-title">
+      <div class="section__inner">
+        <h2 id="posts-title" class="section__title">文章</h2>
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li class="post-card">
+              <time class="post-card__date" datetime={post.data.publishedAt.toISOString().slice(0, 10)}>
+                {post.data.dateDisplay}
+              </time>
+              <h3 class="post-card__title">
+                <a href={`/blog/posts/${post.id}.html`}>{post.data.title}</a>
+              </h3>
+              <p class="post-card__excerpt">{post.data.description}</p>
+              <a class="post-card__link" href={`/blog/posts/${post.id}.html`}>阅读全文</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
